@@ -3,6 +3,7 @@ package ru.varren;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import jna.extra.Screenshoter;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -231,20 +232,18 @@ public class Service {
 
     private void makeScreenshot(String path, boolean resize, String id) {
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-                    BufferedImage capture = new Robot().createScreenCapture(screenRect);
-                    if (resize) capture = resizeImage(capture);
-                    ImageIO.write(capture, "png", new File(path + File.separator + "screenshot" + id + ".png"));
+        try {
+            Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+            BufferedImage capture = new Robot().createScreenCapture(screenRect);
+           // capture = Screenshoter.makeScreenshot();
 
-                } catch (AWTException | IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+            //if (resize) capture = resizeImage(capture);
+
+            ImageIO.write(capture, "png", new File(path + File.separator + "screenshot" + id + ".png"));
+
+        } catch (AWTException | IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
