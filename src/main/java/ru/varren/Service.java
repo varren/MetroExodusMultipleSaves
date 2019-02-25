@@ -1,9 +1,7 @@
 package ru.varren;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import jna.extra.Screenshoter;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
