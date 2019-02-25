@@ -233,9 +233,8 @@ public class Service {
         try {
             Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
             BufferedImage capture = new Robot().createScreenCapture(screenRect);
-           // capture = Screenshoter.makeScreenshot();
 
-            //if (resize) capture = resizeImage(capture);
+            if (resize) capture = resizeImage(capture);
 
             ImageIO.write(capture, "png", new File(path + File.separator + "screenshot" + id + ".png"));
 
