@@ -1,5 +1,6 @@
 package ru.varren;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -30,6 +31,7 @@ public class Service {
     private long latestSave = 0;
 
     private Properties prop = new Properties();
+
     /***************************************************************************************
      PUBLIC
      ****************************************************************************************/
@@ -101,7 +103,8 @@ public class Service {
     private Service() {
         init();
     }
-    private void init(){
+
+    private void init() {
         initPathsInfo();
         initSavesInfo();
     }
@@ -126,7 +129,6 @@ public class Service {
     }
 
 
-
     private void initPathsInfo() {
         String metroSavesPathStr = System.getProperty("user.home") + File.separator + "Saved Games" + File.separator + "metro exodus";
         Path metroSavesPath = Paths.get(metroSavesPathStr);
@@ -147,7 +149,8 @@ public class Service {
         loadConfig();
 
     }
-    private void loadConfig(){
+
+    private void loadConfig() {
         String fileName = "./settings.config";
         InputStream is = null;
         Path file = Paths.get(fileName);
@@ -157,7 +160,7 @@ public class Service {
                 is = new FileInputStream(fileName);
                 prop.load(is);
                 if (prop.getProperty("path") != null)
-                    PATH_METRO_SAVES_CUSTOM =  prop.getProperty("path");
+                    PATH_METRO_SAVES_CUSTOM = prop.getProperty("path");
             } catch (IOException ex) {
                 ex.printStackTrace();
             } finally {
@@ -171,8 +174,8 @@ public class Service {
 
     }
 
-    public void setSavePath(Path path){
-        prop.setProperty("path", path.toString());
+    public void setSavePath(Path path) {
+        prop.setProperty("path", path.toString() + File.separator);
         String fileName = "settings.config";
         OutputStream os = null;
         try {
@@ -181,7 +184,7 @@ public class Service {
             init();
         } catch (IOException ex) {
             ex.printStackTrace();
-        }finally {
+        } finally {
             try {
                 os.close();
             } catch (IOException e) {
@@ -212,35 +215,44 @@ public class Service {
 
     private void makeScreenshot(String path) {
         //will make the screenshot of the primary screen during save
-        makeScreenshot(path,false, ""); // save full screen
+        makeScreenshot(path, false, ""); // save full screen
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             private int id = 0;
+
             @Override
             public void run() {
-                makeScreenshot(path,true, String.valueOf(id));
+                makeScreenshot(path, true, String.valueOf(id));
                 id++;
-                if (id>=5) timer.cancel();
+                if (id >= 5) timer.cancel();
             }
         }, 0, 5000);
     }
-    private void makeScreenshot(String path, boolean resize, String id) {
-        try {
-            Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-            BufferedImage capture = new Robot().createScreenCapture(screenRect);
-            if (resize) capture = resizeImage(capture);
-            ImageIO.write(capture, "png", new File(path + File.separator + "screenshot" + id + ".png"));
 
-        } catch (AWTException | IOException e) {
-            e.printStackTrace();
-        }
+    private void makeScreenshot(String path, boolean resize, String id) {
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+                    BufferedImage capture = new Robot().createScreenCapture(screenRect);
+                    if (resize) capture = resizeImage(capture);
+                    ImageIO.write(capture, "png", new File(path + File.separator + "screenshot" + id + ".png"));
+
+                } catch (AWTException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
-    private static BufferedImage resizeImage(BufferedImage originalImage){
-        int type =  originalImage.getType();
-        BufferedImage resizedImage = new BufferedImage(originalImage.getWidth()/6, originalImage.getHeight()/7, type);
+    private static BufferedImage resizeImage(BufferedImage originalImage) {
+        int type = originalImage.getType();
+        BufferedImage resizedImage = new BufferedImage(originalImage.getWidth() / 6, originalImage.getHeight() / 7, type);
         Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, originalImage.getWidth()/6, originalImage.getHeight()/7, null);
+        g.drawImage(originalImage, 0, 0, originalImage.getWidth() / 6, originalImage.getHeight() / 7, null);
         g.dispose();
 
         return resizedImage;
