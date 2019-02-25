@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<SplitPane dividerPositions="0.7692307692307693" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.varren.Controller">
+  <items>
+      <SplitPane orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+        <items>
+            <ListView fx:id="listView" />
+            <Label fx:id="filePath"  />
+        </items>
+      </SplitPane>
+      <AnchorPane maxWidth="150.0">
+         <children>
+            <Button onAction="#handleChangePathButtonAction"   alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" text="Change Save Dir" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Button onAction="#handleRestartButtonAction" fx:id="restart" alignment="CENTER" contentDisplay="CENTER" layoutY="40.0" mnemonicParsing="false" prefHeight="40.0" text="Restart Game" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Button onAction="#handleLoadButtonAction" fx:id="load" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" text="Load" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
+  </items>
+</SplitPane>

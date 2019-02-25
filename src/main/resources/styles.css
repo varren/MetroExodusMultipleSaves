@@ -1,0 +1,7 @@
+.list-view .list-cell:odd {
+    -fx-content-display:right;
+}
+
+.list-view .list-cell:even {
+    -fx-content-display:right;
+}

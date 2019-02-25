@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'edu.sc.seis.launch4j' version '2.4.4'
+}
+
+group 'varren_metro_saver'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'ru.varren.Main'
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
